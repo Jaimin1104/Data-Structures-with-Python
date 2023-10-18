@@ -30,16 +30,16 @@ class BinarySearchTree:
     def get_minValueNode(self, current=None):
         if current is None:
              current = self.root
-        if current.left is not None:
+        while current.left is not None:
             current = current.left
         return current           
     
     def delete(self, val, node):
         if node is None:
             return node
-        if node.key < val:
+        if val < node.key:
             node.left = self.delete(val, node.left)
-        elif node.key > val:
+        elif val > node.key:
             node.right = self.delete(val, node.right)
         else:
             if node.left is None:
@@ -55,7 +55,7 @@ class BinarySearchTree:
             node.right = self.delete(node.key, node.right)
         return node
         
-    def search(self, val, node=None):
+    def search(self, val, node):
         if self.root is None:
             return None
         if node is None:
@@ -63,9 +63,10 @@ class BinarySearchTree:
         if val == node.key:
             return node
         if val < node.key:
-            self.search(val, node.left)
+            find = self.search(val, node.left)
         if val > node.key:
-            self.search(val, node.right)
+            find = self.search(val, node.right)
+        return find
     
     def print_tree(self, root=None, level=0, prefix="Root :"):
         if self.root is None :
@@ -151,10 +152,10 @@ print("    Printing Binary Search Tree    ".center(120,'-'))
 bst.print_tree(bst.root)
 print("-"*120, end="\n")
 
-search_value = 50
+search_value = 30
 node = bst.search(search_value, bst.root)
 print("    Searching in Binary Search Tree".center(120,'-'))
-if node is not None and node.key == search_value:
+if node is not None:
     print(search_value, "is present in the binary search tree.")
 else:
     print(search_value, "is not present in the binary search tree.")
@@ -173,4 +174,10 @@ if node is not None and node.key == search_value:
     print(search_value, "is present in the binary search tree.")
 else:
     print(search_value, "is not present in the binary search tree.")
+print("-"*120, end="\n")
+
+print(f" Deleting {search_value} in Binary Search Tree ".center(120,'-'))
+ans = bst.delete(search_value, bst.root)
+print("    Printing Binary Search Tree    ".center(120,'-'))
+bst.print_tree(bst.root)
 print("-"*120, end="\n")
